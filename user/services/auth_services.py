@@ -42,20 +42,34 @@ def get_user(pk=None):
 
 
 def update_user(data, pk=None):
-    if pk:
-        user = get_object_or_404(User, id=pk)
-        serializer = UserSerializer(user)
+    user = get_object_or_404(User, id=pk)
+    serializer = UserSerializer(data=data)
+    if serializer.is_valid():
+        updated_user = serializer.update(user, serializer.validated_data)
+        return Response(UserSerializer(updated_user).data, status=status.HTTP_200_OK)
     else:
-        serializer = UserSerializer(data=data, many=True)
-        if serializer.is_valid():
-            serializer.update()
-            return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
-
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-def forget_passeord_token(data):
+def delete_user(pk=None):
+    if pk:
+        try:
+            User.objects.get(pk=pk).delete()
+            return Response(status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+# def update_user(self, request, pk=None):
+#     user = self.get_object(pk)
+#     serializer = UserSerializer(user, data=request.data)
+#     if serializer.is_valid():
+#         serializer.save()
+#         return Response(serializer.data)
+#     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+def forget_password_token(data):
     ser = ForgetPasswordSerializer(data=data)
     if ser.is_valid():
         payload = 'http://127.0.0.1:8000/user/forget-password/' + ser.create_token()
