@@ -82,11 +82,14 @@ class CustomJWTSerializer(JSONWebTokenSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        # fields = ['id', 'name', 'username', 'phone_number']
-        fields = '__all__'
+        fields = ['id', 'username', 'email', 'mobile_number', 'first_name', 'last_name', 'full_name']
+        # fields = '__all__'
 
-    def update(self, instance, validated_data):
-        pass
+
+class UserPutSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'email', 'mobile_number', 'first_name', 'last_name', 'full_name']
 
 
 from django.core import exceptions
@@ -95,7 +98,10 @@ from django.core import exceptions
 class UserRegisterSerializer(serializers.ModelSerializer):
     confirm_password = serializers.CharField(max_length=255, required=True)
     password = serializers.CharField(max_length=255, required=True)
-    email = serializers.EmailField(required=True)
+    email = serializers.EmailField(required=True, validators=[UniqueValidator(queryset=User.objects.all())])
+    first_name = serializers.CharField(max_length=50, required=True)
+    last_name = serializers.CharField(max_length=50, required=True)
+    mobile_number = serializers.IntegerField(required=True, validators=[UniqueValidator(queryset=User.objects.all())])
 
     class Meta:
         model = User

@@ -21,16 +21,13 @@ from django.urls import include, path
 
 from django.contrib import admin
 from django.urls import include, path
-from .views import Loginview, Registerview, UserView, ForgetPassword
+from .views import Loginview, UserView, ForgetPassword
 
 urlpatterns = [
     path('', UserView.as_view()),
     path('<int:pk>', UserView.as_view()),
     path('login', Loginview),
-    path('register', Registerview),
     path('forget-password', ForgetPassword.as_view()),
     path('forget-password/<str:token>', ForgetPassword.as_view())
     # path('user/v1/', include('user.urls')),
 ]
-
-
