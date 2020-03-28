@@ -23,6 +23,6 @@ from django.contrib import admin
 from django.urls import include, path
 from . import views
 urlpatterns = [
-    path('', views.DoctorView.as_view()),
-    path('<int:pk>', views.DoctorView.as_view()),
+    path('', views.LabUserView.as_view()),
+    path('<int:pk>', views.LabUserView.as_view()),
 ]
