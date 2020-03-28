@@ -14,6 +14,9 @@ class DoctorView(APIView):
     def delete(self, request, pk=None):
         return doctor_services.delete_doctor(pk)
 
+    def put(self, request, pk=None):
+        return doctor_services.update_doctor(data=request.data, pk=pk)
+
 
 class ChemistView(APIView):
     def get(self, request, pk=None):
@@ -25,6 +28,9 @@ class ChemistView(APIView):
     def delete(self, request, pk=None):
         return chemist_services.delete_chemist(pk)
 
+    def put(self, request, pk=None):
+        return chemist_services.update_chemist(data=request.data, pk=pk)
+
 
 class LabUserView(APIView):
     def get(self, request, pk=None):
@@ -35,3 +41,6 @@ class LabUserView(APIView):
 
     def delete(self, request, pk=None):
         return lab_user_services.delete_lab_user(pk)
+
+    def put(self, request, pk=None):
+        return lab_user_services.update_lab_user(data=request.data, pk=pk)

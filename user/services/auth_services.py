@@ -4,7 +4,7 @@ from rest_framework.response import Response
 
 from ..models import User, ForgetPasswordToken
 from ..serializer.AuthSerializer import CustomJWTSerializer, UserRegisterSerializer, UserSerializer, \
-    ForgetPasswordSerializer
+    ForgetPasswordSerializer, UserPutSerializer
 
 
 def Login(data):
@@ -42,8 +42,9 @@ def get_user(pk=None):
 
 
 def update_user(data, pk=None):
-    user = get_object_or_404(User, id=pk)
-    serializer = UserSerializer(data=data)
+    # user = get_object_or_404(User, id=pk)
+    user = User.objects.get(pk=pk)
+    serializer = UserPutSerializer(data=data)
     if serializer.is_valid():
         updated_user = serializer.update(user, serializer.validated_data)
         return Response(UserSerializer(updated_user).data, status=status.HTTP_200_OK)

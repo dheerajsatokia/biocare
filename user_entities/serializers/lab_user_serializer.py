@@ -36,3 +36,27 @@ class LabUserPostSerializer(serializers.ModelSerializer):
         user.save()
         lab_user = LabUser.objects.create(user=user)
         return lab_user
+
+
+class LabUserPutSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(required=True)
+    first_name = serializers.CharField(max_length=50, required=True)
+    last_name = serializers.CharField(max_length=50, required=True)
+    mobile_number = serializers.IntegerField(required=True)
+
+    class Meta:
+        model = LabUser
+        fields = ['id', 'email', 'first_name', 'last_name', 'mobile_number', 'kyc_lab1', 'kyc_lab2', 'is_kyc_approved']
+
+    def update(self, instance, validated_data):
+        user = instance.user
+        user.email = validated_data['email']
+        user.first_name = validated_data['first_name']
+        user.last_name = validated_data['last_name']
+        user.mobile_number = validated_data['mobile_number']
+        user.save()
+        instance.kyc_lab1 = validated_data['kyc_lab1']
+        instance.kyc_lab2 = validated_data['kyc_lab2']
+        instance.is_kyc_approved = validated_data['is_kyc_approved']
+
+        return instance
