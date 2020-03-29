@@ -25,7 +25,7 @@ SECRET_KEY = 'o7yce^4xispa_xfa3-#0!k5$!t&t8y9y$mtp7hmi+-)(4frk9i'
 # on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['biocare.herokuapp.com']
 
 # Application definition
 
