@@ -19,11 +19,10 @@ from django.urls import path
 from django.contrib import admin
 from django.urls import include, path
 
+from django.contrib import admin
+from django.urls import include, path
+from . import views
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('user/', include('user.urls')),
-    path('doctor/', include('user_entities.urls')),
-    path('chemist/', include('user_entities.chemist_urls')),
-    path('lab_user/', include('user_entities.lab_user_urls')),
+    path('', views.ChemistView.as_view()),
+    path('<int:pk>', views.ChemistView.as_view()),
 ]
-
