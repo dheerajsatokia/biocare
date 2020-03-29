@@ -1,0 +1,4 @@
+export DATABASE_HOST=localhost
+export DATABASE_PASSWORD=rootuser
+export DATABASE_USER=root
+export DATABASE_NAME=biocare
