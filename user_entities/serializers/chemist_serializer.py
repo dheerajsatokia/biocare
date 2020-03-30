@@ -50,13 +50,13 @@ class ChemistPutSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         user = instance.user
-        user.email = validated_data['email']
-        user.first_name = validated_data['first_name']
-        user.last_name = validated_data['last_name']
-        user.mobile_number = validated_data['mobile_number']
+        user.email = validated_data.get('email')
+        user.first_name = validated_data.get('first_name')
+        user.last_name = validated_data.get('last_name')
+        user.mobile_number = validated_data.get('mobile_number')
         user.save()
-        instance.kyc_chem1 = validated_data['kyc_chem1']
-        instance.kyc_chem2 = validated_data['kyc_chem2']
-        instance.is_kyc_approved = validated_data['is_kyc_approved']
+        instance.kyc_chem1 = validated_data.get('kyc_chem1')
+        instance.kyc_chem2 = validated_data.get('kyc_chem2')
+        instance.is_kyc_approved = validated_data.get('is_kyc_approved')
 
         return instance
