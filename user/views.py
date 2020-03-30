@@ -1,6 +1,7 @@
 from rest_framework import generics
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from user.serializer.AuthSerializer import UserSerializer
 from .models import User
 from .services.auth_services import Login, Register, get_user, forget_password_token, verity_forget_password_token, \
@@ -18,11 +19,13 @@ class UserDetail(generics.RetrieveAPIView):
 
 
 @api_view(['POST'])
+@permission_classes((AllowAny, ))
 def Loginview(request):
     return Login(data=request.data)
 
 
 class UserView(APIView):
+    permission_classes = [IsAuthenticated, IsAuthenticated]
     def get(self, request, pk=None):
         return get_user(pk)
 
