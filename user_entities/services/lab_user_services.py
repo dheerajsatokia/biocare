@@ -36,11 +36,18 @@ def delete_lab_user(pk=None):
             return Response(status=status.HTTP_200_OK)
         except LabUser.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+    else:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 def update_lab_user(data, pk=None):
     # user = get_object_or_404(User, id=pk)
-    lab_user = LabUser.objects.get(pk=pk)
+    if not pk:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    try:
+        lab_user = LabUser.objects.get(pk=pk)
+    except LabUser.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
     ser = lab_user_serializer.LabUserPutSerializer(data=data)
     if ser.is_valid():
         updated_user = ser.update(lab_user, ser.validated_data)

@@ -23,7 +23,7 @@ class ChemistView(APIView):
         return chemist_services.get_chemist(pk)
 
     def post(self, request):
-        return chemist_services.create_doctor(request.data)
+        return chemist_services.create_chemist(request.data)
 
     def delete(self, request, pk=None):
         return chemist_services.delete_chemist(pk)

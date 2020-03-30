@@ -24,6 +24,6 @@ urlpatterns = [
     path('user/', include('user.urls')),
     path('doctor/', include('user_entities.urls')),
     path('chemist/', include('user_entities.chemist_urls')),
-    path('lab_user/', include('user_entities.lab_user_urls')),
+    path('lab/', include('user_entities.lab_user_urls')),
 ]
 

@@ -12,9 +12,12 @@ from rest_framework import status
 
 def get_doctor(pk):
     if pk:
-        doctor = Doctor.objects.get(pk=pk)
-        ser = doctor_serializers.DoctorSerializer(doctor)
-        return Response(ser.data, status=status.HTTP_200_OK)
+        try:
+            doctor = Doctor.objects.get(pk=pk)
+            ser = doctor_serializers.DoctorSerializer(doctor)
+            return Response(ser.data, status=status.HTTP_200_OK)
+        except Doctor.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
     else:
         ser = doctor_serializers.DoctorSerializer(Doctor.objects.all(), many=True)
         return Response(ser.data, status=status.HTTP_200_OK)
@@ -36,11 +39,19 @@ def delete_doctor(pk=None):
             return Response(status=status.HTTP_200_OK)
         except Doctor.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+    else:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 def update_doctor(data, pk=None):
     # user = get_object_or_404(User, id=pk)
-    doctor = Doctor.objects.get(pk=pk)
+    if not pk:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        doctor = Doctor.objects.get(pk=pk)
+    except Doctor.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
     ser = doctor_serializers.DoctorPutSerializer(data=data)
     if ser.is_valid():
         updated_user = ser.update(doctor, ser.validated_data)
