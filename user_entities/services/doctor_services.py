@@ -35,7 +35,10 @@ def create_doctor(data):
 def delete_doctor(pk=None):
     if pk:
         try:
-            Doctor.objects.get(pk=pk).delete()
+            dr = Doctor.objects.get(pk=pk)
+            dr.user.address.delete()
+            dr.user.delete()
+            dr.delete()
             return Response(status=status.HTTP_200_OK)
         except Doctor.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
