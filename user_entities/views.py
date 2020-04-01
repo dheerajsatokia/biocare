@@ -1,13 +1,18 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from .services import doctor_services, chemist_services, lab_user_services
+from rest_framework.permissions import AllowAny
+from rest_framework.decorators import permission_classes
 
 
 # Create your views here.
 class DoctorView(APIView):
+    permission_classes = [AllowAny, ]
+
     def get(self, request, pk=None):
         return doctor_services.get_doctor(pk)
 
+    # @permission_classes((AllowAny,))
     def post(self, request):
         return doctor_services.create_doctor(request.data)
 

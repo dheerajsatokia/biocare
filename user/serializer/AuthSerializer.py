@@ -79,10 +79,21 @@ class CustomJWTSerializer(JSONWebTokenSerializer):
             raise serializers.ValidationError(msg)
 
 
+from ..models import Address
+
+
+class AddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Address
+        fields = '__all__'
+
+
 class UserSerializer(serializers.ModelSerializer):
+    address = AddressSerializer()
+
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'mobile_number', 'first_name', 'last_name', 'full_name']
+        fields = ['id', 'username', 'email', 'mobile_number', 'first_name', 'last_name', 'full_name', 'address']
         # fields = '__all__'
 
 

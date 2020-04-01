@@ -61,15 +61,6 @@ def delete_user(pk=None):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-# def update_user(self, request, pk=None):
-#     user = self.get_object(pk)
-#     serializer = UserSerializer(user, data=request.data)
-#     if serializer.is_valid():
-#         serializer.save()
-#         return Response(serializer.data)
-#     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
 def forget_password_token(data):
     ser = ForgetPasswordSerializer(data=data)
     if ser.is_valid():

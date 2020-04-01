@@ -9,6 +9,7 @@ class Doctor(models.Model):
     kyc_doc1 = models.FileField(upload_to='DoctorKYC/', null=True, blank=True)
     kyc_doc2 = models.FileField(upload_to='DoctorKYC/', null=True, blank=True)
     is_kyc_approved = models.BooleanField(default=False)
+    location = models.TextField
 
 
 class Chemist(models.Model):

@@ -37,24 +37,34 @@ class ForgetPasswordToken(models.Model):
         return timezone.now() < self.exp_time
 
 
-# class Doctor(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, related_name='Doctor')
-#     speciality = models.CharField(max_length=50, null=False)
-#     department = models.CharField(max_length=50, null=False)
-#     prescription_chem = models.TextField()
-#     prescription_lab = models.TextField()
-#     remarks = models.TextField()
-#
-#
-# class Patient(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, related_name='patient')
-#     age = models.IntegerField(null=False)
-#     blood_group = models.CharField(max_length=5)
-#
-#
-# class LabOperator(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, related_name='lab_operator')
-# #
-#
-# class Chemist(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, related_name='chemist', default=3)
+class Address(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    address1 = models.CharField(
+        "Address line 1",
+        max_length=1024,
+    )
+
+    address2 = models.CharField(
+        "Address line 2",
+        max_length=1024,
+    )
+
+    zip_code = models.CharField(
+        "ZIP / Postal code",
+        max_length=12,
+    )
+
+    city = models.CharField(
+        "City",
+        max_length=1024,
+    )
+
+    country = models.CharField(
+        "Country",
+        max_length=255,
+    )
+
+    class Meta:
+        verbose_name = "Address"
+        verbose_name_plural = "Addresses"
