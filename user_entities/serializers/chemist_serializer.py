@@ -2,7 +2,7 @@ from rest_framework import serializers
 from ..models import Chemist
 from user.serializer import AuthSerializer
 from rest_framework.validators import UniqueValidator
-from user.models import User
+from user.models import User, Address
 
 
 class ChemistSerializer(serializers.ModelSerializer):
@@ -24,6 +24,12 @@ class ChemistPostSerializer(serializers.ModelSerializer):
     last_name = serializers.CharField(max_length=50, required=True)
     mobile_number = serializers.IntegerField(required=True, validators=[UniqueValidator(queryset=User.objects.all())])
 
+    address1 = serializers.CharField(max_length=1024)
+    address2 = serializers.CharField(max_length=1024)
+    zip_code = serializers.CharField(max_length=12)
+    city = serializers.CharField(max_length=12)
+    country = serializers.CharField(max_length=250)
+
     class Meta:
         model = Chemist
         fields = '__all__'
@@ -34,6 +40,14 @@ class ChemistPostSerializer(serializers.ModelSerializer):
                                    last_name=validated_data['last_name'], mobile_number=validated_data['mobile_number'])
         user.set_password(validated_data['password'])
         user.save()
+
+        Address.objects.create(user=user,
+                               address1=validated_data['address1'],
+                               address2=validated_data['address2'],
+                               zip_code=validated_data['zip_code'],
+                               city=validated_data['city'],
+                               country=validated_data['country'],
+                               )
         chemist = Chemist.objects.create(user=user)
         return chemist
 
@@ -44,9 +58,17 @@ class ChemistPutSerializer(serializers.ModelSerializer):
     last_name = serializers.CharField(max_length=50, required=True)
     mobile_number = serializers.IntegerField(required=True)
 
+    address1 = serializers.CharField(max_length=1024)
+    address2 = serializers.CharField(max_length=1024)
+    zip_code = serializers.CharField(max_length=12)
+    city = serializers.CharField(max_length=12)
+    country = serializers.CharField(max_length=250)
+
     class Meta:
         model = Chemist
-        fields = ['id', 'email', 'first_name', 'last_name', 'mobile_number', 'kyc_chem1', 'kyc_chem2', 'is_kyc_approved']
+        fields = ['id', 'email', 'first_name', 'last_name', 'mobile_number', 'kyc_chem1', 'kyc_chem2',
+                  'is_kyc_approved',
+                  'address1', 'address2', 'zip_code', 'city', 'country']
 
     def update(self, instance, validated_data):
         user = instance.user
@@ -55,6 +77,15 @@ class ChemistPutSerializer(serializers.ModelSerializer):
         user.last_name = validated_data.get('last_name')
         user.mobile_number = validated_data.get('mobile_number')
         user.save()
+
+        address = user.address
+        address.address1 = validated_data.get('address1')
+        address.address2 = validated_data.get('address2')
+        address.zip_code = validated_data.get('zip_code')
+        address.city = validated_data.get('city')
+        address.country = validated_data.get('country')
+        address.save()
+
         instance.kyc_chem1 = validated_data.get('kyc_chem1')
         instance.kyc_chem2 = validated_data.get('kyc_chem2')
         instance.is_kyc_approved = validated_data.get('is_kyc_approved')

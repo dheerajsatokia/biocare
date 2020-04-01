@@ -24,6 +24,8 @@ class DoctorView(APIView):
 
 
 class ChemistView(APIView):
+    permission_classes = [AllowAny, ]
+
     def get(self, request, pk=None):
         return chemist_services.get_chemist(pk)
 
@@ -38,6 +40,8 @@ class ChemistView(APIView):
 
 
 class LabUserView(APIView):
+    permission_classes = [AllowAny, ]
+
     def get(self, request, pk=None):
         return lab_user_services.get_lab_user(pk)
 

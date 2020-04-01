@@ -29,7 +29,10 @@ def create_chemist(data):
 def delete_chemist(pk=None):
     if pk:
         try:
-            Chemist.objects.get(pk=pk).delete()
+            chemist = Chemist.objects.get(pk=pk)
+            chemist.user.address.delete()
+            chemist.user.delete()
+            chemist.delete()
             return Response(status=status.HTTP_200_OK)
         except Chemist.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
