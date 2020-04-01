@@ -19,13 +19,14 @@ class UserDetail(generics.RetrieveAPIView):
 
 
 @api_view(['POST'])
-@permission_classes((AllowAny, ))
+@permission_classes((AllowAny,))
 def Loginview(request):
     return Login(data=request.data)
 
 
 class UserView(APIView):
     permission_classes = [IsAuthenticated, IsAuthenticated]
+
     def get(self, request, pk=None):
         return get_user(pk)
 
