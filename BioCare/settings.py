@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'user_entities',
 
     'rest_framework',
+    'corsheaders',
 ]
 
 AUTH_USER_MODEL = 'user.User'
@@ -58,11 +59,11 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
     ),
 }
-
+CORS_ORIGIN_ALLOW_ALL = True
 JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(minutes=int(os.environ.get('JWT_REFRESH_EXPIRATION_DELTA',
-                                                                               default='300'))),
+                                                                                  default='300'))),
     'JWT_EXPIRATION_DELTA': datetime.timedelta(minutes=int(os.environ.get('JWT_EXPIRATION_DELTA', default='3000'))),
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
 }
@@ -70,6 +71,7 @@ JWT_AUTH = {
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
