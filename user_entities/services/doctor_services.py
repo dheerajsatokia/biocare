@@ -23,6 +23,8 @@ def get_doctor(pk):
         return Response(ser.data, status=status.HTTP_200_OK)
 
 
+
+
 def create_doctor(data):
     ser = doctor_serializers.DoctorPostSerializer(data=data)
     if ser.is_valid():
