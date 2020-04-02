@@ -22,11 +22,15 @@ from django.urls import include, path
 from django.contrib import admin
 from django.urls import include, path
 from .views import Loginview, UserView, ForgetPassword
+from rest_framework_jwt.views import refresh_jwt_token
+from rest_framework_jwt.views import verify_jwt_token
 
 urlpatterns = [
     path('', UserView.as_view()),
     path('<int:pk>', UserView.as_view()),
     path('login', Loginview),
+    path('refresh-token', refresh_jwt_token),
+    path('verify-token', verify_jwt_token),
     path('forget-password', ForgetPassword.as_view()),
     path('forget-password/<str:token>', ForgetPassword.as_view())
     # path('user/v1/', include('user.urls')),
