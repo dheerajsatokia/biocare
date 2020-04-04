@@ -23,8 +23,6 @@ def get_doctor(pk):
         return Response(ser.data, status=status.HTTP_200_OK)
 
 
-
-
 def create_doctor(data):
     ser = doctor_serializers.DoctorPostSerializer(data=data)
     if ser.is_valid():
@@ -34,6 +32,10 @@ def create_doctor(data):
         return Response(ser.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+from django.db import transaction
+
+
+@transaction.atomic
 def delete_doctor(pk=None):
     if pk:
         try:
@@ -63,3 +65,15 @@ def update_doctor(data, pk=None):
         return Response(doctor_serializers.DoctorSerializer(updated_user).data, status=status.HTTP_200_OK)
     else:
         return Response(ser.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+def approve_doctor(data):
+    if not 'id' in data:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    try:
+        dr = Doctor.objects.get(id=data['id'])
+        dr.is_kyc_approved = True
+        dr.save()
+        return Response(status=status.HTTP_200_OK)
+    except Doctor.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)

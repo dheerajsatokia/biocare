@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from .services import doctor_services, chemist_services, lab_user_services, dashboard_service, patient_services
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.decorators import action, permission_classes as permission_decorator
+from rest_framework.decorators import action, permission_classes as permission_decorator, api_view
 from rest_framework.response import Response
 
 
@@ -75,3 +75,8 @@ class PatientView(APIView):
 
     def delete(self, request, pk=None):
         return patient_services.delete_patient(pk)
+
+
+@api_view(['POST'])
+def approve_doctor(request):
+    return doctor_services.approve_doctor(request.data)

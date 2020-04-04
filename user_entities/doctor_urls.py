@@ -26,6 +26,7 @@ from . import views
 urlpatterns = [
     path('', views.DoctorView.as_view()),
     path('<int:pk>', views.DoctorView.as_view()),
+    path('approve', views.approve_doctor),
 
-    path('dashboard', views.DashBoard.as_view()),
+    # path('dashboard', views.DashBoard.as_view()),
 ]
