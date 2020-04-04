@@ -1,6 +1,5 @@
 from ..serializers import dashboard_serializer
 from rest_framework.response import Response
-from rest_framework import status
 from ..models import Doctor, Chemist, LabUser
 from ..serializers import doctor_serializers, chemist_serializer, lab_user_serializer
 import json
@@ -26,11 +25,11 @@ def doctor_pending_approval():
     labs = LabUser.objects.filter(is_kyc_approved=False)
     labs = lab_user_serializer.LabUserSerializer(labs, many=True).data
 
-    data = {'pending_approvals': {
+    data = {
         'doctors': doctors,
         'chemist': chemist,
         'labs': labs
-    }}
+    }
     json_str = json.dumps(data)
     json_data = json.loads(json_str)
     return json_data
