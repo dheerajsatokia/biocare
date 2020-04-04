@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
-from .services import doctor_services, chemist_services, lab_user_services, dashboard_service
+from .services import doctor_services, chemist_services, lab_user_services, dashboard_service, patient_services
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import action, permission_classes as permission_decorator
 from rest_framework.response import Response
@@ -59,3 +59,19 @@ class LabUserView(APIView):
 class DashBoard(APIView):
     def get(self, request):
         return dashboard_service.get_dashboard()
+
+
+class PatientView(APIView):
+    permission_classes = [AllowAny, ]
+
+    def get(self, request, pk=None):
+        return patient_services.get_patient(pk)
+
+    def post(self, request):
+        return patient_services.create_patient(request.data)
+
+    def put(self, request, pk=None):
+        return patient_services.update_patient(data=request.data, pk=pk)
+
+    def delete(self, request, pk=None):
+        return patient_services.delete_patient(pk)

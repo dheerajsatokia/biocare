@@ -24,3 +24,10 @@ class LabUser(models.Model):
     kyc_lab1 = models.FileField(upload_to='LabUSerKYC/', null=True, blank=True)
     kyc_lab2 = models.FileField(upload_to='LabUSerKYC/', null=True, blank=True)
     is_kyc_approved = models.BooleanField(default=False)
+
+
+class Patient(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    kyc_pat1 = models.FileField(upload_to='PatientKYC/', null=True, blank=True)
+    kyc_pat2 = models.FileField(upload_to='PatientKYC/', null=True, blank=True)
+    is_kyc_approved = models.BooleanField(default=False)

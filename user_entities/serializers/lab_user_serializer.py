@@ -34,6 +34,16 @@ class LabUserPostSerializer(serializers.ModelSerializer):
         model = LabUser
         fields = '__all__'
 
+    def validate(self, data):
+        if not data.get('password') or not data.get('confirm_password'):
+            raise serializers.ValidationError("Please enter a password and "
+                                              "confirm it.")
+
+        if data.get('password') != data.get('confirm_password'):
+            raise serializers.ValidationError("passwords doesn't match.")
+
+        return data
+
     def create(self, validated_data):
         user = User.objects.create(username=validated_data['username'],
                                    email=validated_data['email'], first_name=validated_data['first_name'],
