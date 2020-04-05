@@ -56,3 +56,14 @@ def update_chemist(data, pk=None):
         return Response(chemist_serializer.ChemistSerializer(updated_chemist).data, status=status.HTTP_200_OK)
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+def approve_chemist(data):
+    if not 'id' in data:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    try:
+        lab = Chemist.objects.get(id=data['id'])
+        lab.is_kyc_approved = True
+        lab.save()
+        return Response(status=status.HTTP_200_OK)
+    except Chemist.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)

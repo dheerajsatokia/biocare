@@ -80,3 +80,13 @@ class PatientView(APIView):
 @api_view(['POST'])
 def approve_doctor(request):
     return doctor_services.approve_doctor(request.data)
+
+
+@api_view(['POST'])
+def approve_lab(request):
+    return lab_user_services.approve_lab(request.data)
+
+
+@api_view(['POST'])
+def approve_chemist(request):
+    return chemist_services.approve_chemist(request.data)

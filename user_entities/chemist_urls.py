@@ -25,4 +25,6 @@ from . import views
 urlpatterns = [
     path('', views.ChemistView.as_view()),
     path('<int:pk>', views.ChemistView.as_view()),
+    path('approve', views.approve_chemist),
+
 ]

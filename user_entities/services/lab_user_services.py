@@ -54,3 +54,15 @@ def update_lab_user(data, pk=None):
         return Response(lab_user_serializer.LabUserSerializer(updated_user).data, status=status.HTTP_200_OK)
     else:
         return Response(ser.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+def approve_lab(data):
+    if not 'id' in data:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    try:
+        lab = LabUser.objects.get(id=data['id'])
+        lab.is_kyc_approved = True
+        lab.save()
+        return Response(status=status.HTTP_200_OK)
+    except LabUser.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
