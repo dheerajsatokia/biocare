@@ -6,9 +6,9 @@ import json
 
 
 def get_count():
-    data = {'doctor': Doctor.objects.all().count(),
-            'chemist': Chemist.objects.all().count(),
-            'lab': LabUser.objects.all().count(),
+    data = {'doctor': Doctor.objects.filter(is_kyc_approved=True).count(),
+            'chemist': Chemist.objects.filter(is_kyc_approved=True).count(),
+            'lab': LabUser.objects.filter(is_kyc_approved=True).count(),
             }
     ser = dashboard_serializer.CountingSerializer(data=data)
     if ser.is_valid():

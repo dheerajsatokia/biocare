@@ -16,7 +16,7 @@ def get_lab_user(pk):
         ser = lab_user_serializer.LabUserSerializer(lab_user)
         return Response(ser.data, status=status.HTTP_200_OK)
     else:
-        ser = lab_user_serializer.LabUserSerializer(LabUser.objects.all(), many=True)
+        ser = lab_user_serializer.LabUserSerializer(LabUser.objects.filter(is_kyc_approved=True), many=True)
         return Response(ser.data, status=status.HTTP_200_OK)
 
 

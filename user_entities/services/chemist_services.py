@@ -13,7 +13,7 @@ def get_chemist(pk=None):
         except Chemist.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
     else:
-        ser = chemist_serializer.ChemistSerializer(Chemist.objects.all(), many=True)
+        ser = chemist_serializer.ChemistSerializer(Chemist.objects.filter(is_kyc_approved=True), many=True)
         return Response(ser.data, status=status.HTTP_200_OK)
 
 

@@ -19,7 +19,7 @@ def get_doctor(pk):
         except Doctor.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
     else:
-        ser = doctor_serializers.DoctorSerializer(Doctor.objects.all(), many=True)
+        ser = doctor_serializers.DoctorSerializer(Doctor.objects.filter(is_kyc_approved=True), many=True)
         return Response(ser.data, status=status.HTTP_200_OK)
 
 
